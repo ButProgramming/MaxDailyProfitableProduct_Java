@@ -9,6 +9,7 @@ public class Orders {
     private static List<String> IDs = new ArrayList<>();
 
     public static List<String> getOrdersIDs(String dateAnalysis){
+        IDs.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             IDs.contains(100);
             String line;
@@ -16,7 +17,6 @@ public class Orders {
             int indexTo = 0;
             String date;
             while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
                 indexFor = line.indexOf(',');
                 indexTo = line.indexOf('T');
                 date = line.substring(indexFor + 1, indexTo);
@@ -27,6 +27,7 @@ public class Orders {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return IDs;
     }
 }

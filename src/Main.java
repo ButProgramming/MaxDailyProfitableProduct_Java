@@ -1,10 +1,20 @@
 import java.util.*;
 
 public class Main {
-    private static int max = 0;
-    private static String maxName;
+    static void mostProfitable() {
+        String dateBase = "2021-01-";
+        for(int i=1; i<=31; i++){
+            String date = dateBase+i/10+i%10;
+            System.out.println("Date: "+date);
+            mostProfitable(date);
+        }
+    }
 
-    static void mostProfitable(Map<String, Integer> costsMap){
+    static void mostProfitable(String date){
+        int max=0;
+        List<String> listOrdersIDs = Orders.getOrdersIDs(date);
+        Map<String, Integer> countMap = Order_Items.getCountMap(listOrdersIDs);
+        Map<String, Integer> costsMap = Products.getCosts(countMap);
         for(Map.Entry<String, Integer> entry: costsMap.entrySet()){
             if(entry.getValue()>max){
                 max = entry.getValue();
@@ -12,19 +22,15 @@ public class Main {
         }
         for(Map.Entry<String, Integer> entry: costsMap.entrySet()){
             if(max==entry.getValue()){
-                System.out.println("Name of product: "+entry.getKey()+", total profit: "+entry.getValue());
+                System.out.println("Name of most profitable product: "+entry.getKey()+", total profit: "+entry.getValue());
             }
         }
+
+
     }
 
     public static void main(String[] args) {
-
-        List<String> l = Orders.getOrdersIDs("2021-01-21");
-        //System.out.println(l);
-        Map<String,Integer> m = Order_Items.getCountMap(l);
-        //System.out.println(m);
-        Map<String, Integer> m2 = Products.getCosts(m);
-        //System.out.println(m2);
-        Main.mostProfitable(m2);
+        //Main.mostProfitable("2021-01-31");
+        Main.mostProfitable();
     }
 }

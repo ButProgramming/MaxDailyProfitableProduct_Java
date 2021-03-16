@@ -9,6 +9,7 @@ public class Products {
     private static String filename = "products.csv";
 
     public static Map<String, Integer> getCosts(Map<String, Integer> countOrders) {
+        costsMap.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             String nameOfProduct;
@@ -26,16 +27,12 @@ public class Products {
                 indexEndProductID = line.indexOf(',');
                 String productID = line.substring(indexBeginProductID, indexEndProductID);
 
-                //System.out.println(productID);
                 indexBeginNameOfProduct = indexEndProductID+1;
                 indexEndNameOfProduct = line.lastIndexOf(',');
                 nameOfProduct = line.substring(indexBeginNameOfProduct, indexEndNameOfProduct);
-                //System.out.println(nameOfProduct);
                 indexBeginPrice=indexEndNameOfProduct+1;
                 priceString = line.substring(indexBeginPrice);
-                //System.out.println(priceString);
                 price = Integer.parseInt(priceString);
-                //System.out.println(price);
                 for(Map.Entry<String, Integer> entry:countOrders.entrySet()){
                     if(productID.equals(entry.getKey())){
                         if(costsMap.get(nameOfProduct)==null){
@@ -50,7 +47,7 @@ public class Products {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        //System.out.println(countOrders);
+
         return costsMap;
     }
 }

@@ -10,10 +10,9 @@ public class Order_Items {
     private static Map<String, Integer> countOrders = new HashMap<>();
 
     public static Map<String, Integer> getCountMap(List<String> IDs) {
+        countOrders.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
-            String str = new String();
-            int indexFromOrderId = 0;
             int indexToOrderID = 0;
             int indexFromProductID = 0;
             int indexToItemID = 0;
@@ -24,8 +23,8 @@ public class Order_Items {
                 indexToOrderID = line.indexOf(',');
                 indexFromProductID = indexToOrderID;
                 indexToItemID = line.lastIndexOf(',');
-                String orderID = new String(line.substring(0,indexToOrderID));
-                String productID = new String(line.substring(indexFromProductID+1, indexToItemID));
+                String orderID = line.substring(0,indexToOrderID);
+                String productID = line.substring(indexFromProductID+1, indexToItemID);
 
                 String countString = new String();
                 countString=line.substring(indexToItemID+1);
@@ -47,11 +46,9 @@ public class Order_Items {
                     }
                 }
 
-                // filling the map
                 for(String i:IDs){
                     if(i.equals(orderID)){
                         countOrders.put(productID, countOrders.get(productID)+count);
-                        //System.out.println(orderID+","+productID+","+count);
                         break;
                     }
                 }
@@ -59,6 +56,7 @@ public class Order_Items {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return countOrders;
     }
 }
